@@ -855,13 +855,106 @@ function isCrushed() {}
 if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
   warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
 }
-},{"symbol-observable":"node_modules/symbol-observable/es/index.js"}],"index.js":[function(require,module,exports) {
+},{"symbol-observable":"node_modules/symbol-observable/es/index.js"}],"actions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addTodo = addTodo;
+exports.completeTodo = completeTodo;
+exports.COMPLETE_TODO = exports.ADD_TODO = void 0;
+var ADD_TODO = 'ADD_TODO';
+exports.ADD_TODO = ADD_TODO;
+var COMPLETE_TODO = 'COMPLETE_TODO';
+exports.COMPLETE_TODO = COMPLETE_TODO;
+
+function addTodo(text) {
+  return {
+    type: ADD_TODO,
+    text: text
+  };
+}
+
+function completeTodo(index) {
+  return {
+    type: COMPLETE_TODO,
+    index: index
+  };
+}
+},{}],"reducers.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.todos = todos;
+
+var _actions = require("./actions");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var initialState = {
+  todos: []
+};
+
+function todos() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState.todos;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions.ADD_TODO:
+      return [].concat(_toConsumableArray(state), [{
+        text: action.text,
+        complete: false
+      }]);
+
+    case _actions.COMPLETE_TODO:
+      var todo = state.map(function (value, index) {
+        if (index === value.index) {
+          return _objectSpread(_objectSpread({}, state), {}, {
+            complete: true
+          });
+        }
+      });
+      return todo;
+
+    default:
+      return state;
+  }
+}
+},{"./actions":"actions.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _redux = require("redux");
 
-console.log(_redux.createStore);
-},{"redux":"node_modules/redux/es/redux.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var _actions = require("./actions.js");
+
+var _reducers = require("./reducers.js");
+
+var store = (0, _redux.createStore)(_reducers.todos);
+console.log(store.getState());
+store.dispatch((0, _actions.addTodo)('Aprender sobre acciones'));
+store.dispatch((0, _actions.addTodo)('Aprender sobre reducers'));
+store.dispatch((0, _actions.addTodo)('Aprender sobre stores'));
+console.log(store.getState());
+},{"redux":"node_modules/redux/es/redux.js","./actions.js":"actions.js","./reducers.js":"reducers.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -889,7 +982,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45201" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45501" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
