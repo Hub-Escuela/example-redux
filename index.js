@@ -5,11 +5,19 @@ import {todos} from './reducers.js'
 
 const store = createStore(todos)
 
-console.log(store.getState());
+const form = document.querySelector('.todo-form');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const todo = document.querySelector('#todo').value;
+    store.dispatch(addTodo(todo));
+    addTodoToUI(todo);
+
+})
+
+const addTodoToUI = (todo) => {
+    const todoList =document.querySelector('.todo-list');
+    todoList.insertAdjacentHTML('beforeend', `<li>${todo}</li>`)
+}
 
 
-store.dispatch(addTodo('Aprender sobre acciones'));
-store.dispatch(addTodo('Aprender sobre reducers'));
-store.dispatch(addTodo('Aprender sobre stores'));
-
-console.log(store.getState());

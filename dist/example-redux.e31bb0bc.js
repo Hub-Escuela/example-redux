@@ -949,11 +949,18 @@ var _actions = require("./actions.js");
 var _reducers = require("./reducers.js");
 
 var store = (0, _redux.createStore)(_reducers.todos);
-console.log(store.getState());
-store.dispatch((0, _actions.addTodo)('Aprender sobre acciones'));
-store.dispatch((0, _actions.addTodo)('Aprender sobre reducers'));
-store.dispatch((0, _actions.addTodo)('Aprender sobre stores'));
-console.log(store.getState());
+var form = document.querySelector('.todo-form');
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var todo = document.querySelector('#todo').value;
+  store.dispatch((0, _actions.addTodo)(todo));
+  addTodoToUI(todo);
+});
+
+var addTodoToUI = function addTodoToUI(todo) {
+  var todoList = document.querySelector('.todo-list');
+  todoList.insertAdjacentHTML('beforeend', "<li>".concat(todo, "</li>"));
+};
 },{"redux":"node_modules/redux/es/redux.js","./actions.js":"actions.js","./reducers.js":"reducers.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -982,7 +989,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45501" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44697" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
