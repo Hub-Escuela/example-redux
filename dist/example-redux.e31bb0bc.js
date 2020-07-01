@@ -926,14 +926,11 @@ function todos() {
       }]);
 
     case _actions.COMPLETE_TODO:
-      var todo = state.map(function (value, index) {
-        if (index === value.index) {
-          return _objectSpread(_objectSpread({}, state), {}, {
-            complete: true
-          });
-        }
+      return state.map(function (state, index) {
+        return index === action.index ? _objectSpread(_objectSpread({}, state), {}, {
+          complete: true
+        }) : state;
       });
-      return todo;
 
     default:
       return state;
@@ -950,6 +947,11 @@ var _reducers = require("./reducers.js");
 
 var store = (0, _redux.createStore)(_reducers.todos);
 var form = document.querySelector('.todo-form');
+store.dispatch((0, _actions.addTodo)('todo 1'));
+store.dispatch((0, _actions.addTodo)('todo 2'));
+store.dispatch((0, _actions.addTodo)('dodo 3'));
+store.dispatch((0, _actions.completeTodo)(0));
+console.log(store.getState());
 form.addEventListener('submit', function (e) {
   e.preventDefault();
   var todo = document.querySelector('#todo').value;
@@ -989,7 +991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44697" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42881" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

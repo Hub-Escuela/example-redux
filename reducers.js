@@ -18,15 +18,9 @@ function todos(state=initialState.todos, action) {
                
             ]
         case COMPLETE_TODO:
-            const todo = state.map((value, index) => {
-                if (index === value.index) {
-                    return {
-                        ...state,
-                        complete: true
-                    }
-                }
-            });
-            return todo;
+            return state.map((state, index) =>
+                index === action.index ? { ...state, complete: true } : state
+              )
         default:
             return state;
     }
